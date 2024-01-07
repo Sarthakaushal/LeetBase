@@ -1,44 +1,32 @@
-# Link to Ques : https://leetcode.com/problems/valid-anagram/
+# Link to Ques : https://leetcode.com/problems/two-sum
 
 class Solution:
-    def isAnagram(self, s: str, t: str) -> bool:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
         """
-        Brute force approach : check if sorted string is same
-        => Time Complexity : O(n *logn)
-        => Space Complexity : O(1)
+        Brute Force - sort the list and traverse
+        => Time comolexity : O(n*logn)
+        => Space complexity: ??
         """
-        # s = list(s)
-        # s.sort()
-        # s = str(s)
-        # t = list(t)
-        # t.sort()
-        # t = str(t)
-        # if s==t:
-        #     return True
-        # else:
-        #     return False
-        """
-        Hashmap based apprach : count of elements and then compare via dict
-        => Time complexity : O(n)
-        => Space complexity : O(n)
-        """
-        if len(s)!=len(t):
-            return False
-        s= self.string_to_dict(s)
-        t= self.string_to_dict(t)
-        if len(s)!=len(t):
-            return False # is letters do not match
-        else:
-            for key in s:
-                comparabale = t.get(key,0)
-                if not comparabale:
-                    False
-                if s[key]!=comparabale:
-                    return False
-            return True
-    
-    def string_to_dict(self, l:str) -> dict:
-        d = dict()
-        for i in l:
-            d[i] = d.get(i,0)+1
-        return d
+        f = sorted(nums)
+        i =0
+        j=1
+        is_i = False
+        while f[i]+f[j] != target:
+            if f[i]+f[j] < target:
+                if j < len(f)-1:
+                    j+=1
+                elif i < j-1:
+                    i+=1
+            else:
+                if not is_i:
+                    i+=1
+                    is_i = not is_i
+                else:
+                    j+=1
+                    is_i = not is_i
+                # elif j-i > 1:
+                #     j-=1
+        try:
+            return [nums.index(f[i]),i+1+nums[i+1:].index(f[j])]
+        except:
+            return [nums.index(f[i]), nums.index(f[j])]
